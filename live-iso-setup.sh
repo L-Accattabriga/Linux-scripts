@@ -7,7 +7,7 @@ sudo passwd
 
 sudo apt update
 
-sudo apt install acpi lm-sensors vim
+sudo apt install acpi lm-sensors vim byobu
 
 #----------
 
