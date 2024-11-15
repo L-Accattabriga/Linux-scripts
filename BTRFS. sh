@@ -1,0 +1,41 @@
+# Partition table/btrfs sub volumes
+# /dev/nvem0n1p4 EFI
+# /dev/nvem0n1p5 swap
+# /dev/nvem0n1p6 root
+
+# mount /dev/nvme01np6 /mnt
+
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@root
+btrfs su cr /mnt/@var
+btrfs su cr /mnt/@var/cache
+btrfs su cr /mnt/@var/log
+btrfs su cr /mnt/@tmp
+btrfs su cr /mnt/@.snapshots
+
+Umount /mnt
+
+# Mount the root filesystem (`/`)
+mount -t btrfs -o relatime,compress=zstd,ssd,space_cache=v2,subvol=@ /dev/nvme0n1p6 /mnt
+
+# Mount the root user's home directory (`/root`)
+mount -t btrfs -o relatime,compress=zstd,ssd,space_cache=v2,subvol=@root /dev/nvme0n1p6 /mnt/root
+
+# Mount the home directory (`/home`)
+mount -t btrfs -o relatime,compress=zstd,ssd,space_cache=v2,subvol=@home /dev/nvme0n1p6 /mnt/home
+
+# Mount `/var`
+mount -t btrfs -o relatime,nodatacow,space_cache=v2,subvol=@var /dev/nvme0n1p6 /mnt/var
+
+# Mount `/var/cache`
+mount -t btrfs -o relatime,nodatacow,space_cache=v2,subvol=@var/cache /dev/nvme0n1p6 /mnt/var/cache
+
+# Mount `/var/log`
+mount -t btrfs -o relatime,nodatacow,space_cache=v2,subvol=@var/log /dev/nvme0n1p6 /mnt/var/log
+
+# Mount `/tmp`
+mount -t btrfs -o relatime,compress=zstd,ssd,space_cache=v2,subvol=@tmp /dev/nvme0n1p6 /mnt/tmp
+
+# Mount snapshots directory (`/.snapshots`)
+mount -t btrfs -o relatime,compress=zstd,ssd,space_cache=v2,subvol=@.snapshots /dev/nvme0n1p6 /mnt/.snapshots
