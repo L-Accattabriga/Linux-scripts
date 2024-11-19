@@ -14,13 +14,22 @@ confirm_and_execute() {
     done
 }
 
-# Check if any arguments are passed
-if [ "$#" -eq 0 ]; then
-    echo "Usage: $0 <command1> <command2> ... <commandN>"
-    exit 1
+# Predefined commands (fallback)
+default_commands=(
+    "ls -l"
+    "echo 'Hello World'"
+    "uname -a"
+    "pwd"
+)
+
+# If arguments are passed, use them; otherwise, use default commands
+if [ "$#" -gt 0 ]; then
+    commands=("$@")
+else
+    commands=("${default_commands[@]}")
 fi
 
-# Loop through arguments and process them as commands
-for cmd in "$@"; do
+# Loop through commands and process them
+for cmd in "${commands[@]}"; do
     confirm_and_execute "$cmd"
 done
