@@ -6,10 +6,10 @@ set -eo pipefail
 
 # Script Variables
 sName="$1"
-sName="$sName.sh"
+#sName="$sName.sh"
 sDirs="$HOME/bin"
 sPath="$sDirs/$sName"
-UsrLocBin="/usr/local/bin/"
+
 
 # if statement to error check arg
 if [ "$#" -ne 1 ]; then
